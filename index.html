@@ -1,0 +1,97 @@
+here<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>مختبر العلوم التفاعلي - Interactive Science Lab</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; background: #f0f0f0; margin: 0; padding: 20px; }
+        .hidden { display: none; }
+        #canvas-container { width: 100%; max-width: 600px; height: 300px; margin: 20px auto; background: #fff; border: 2px solid #ccc; position: relative; overflow: hidden; }
+        .object { position: absolute; bottom: 0; transition: all 0.5s; }
+        #bottle { left: 200px; width: 80px; height: 120px; background: #87CEEB; border-radius: 10px 10px 5px 5px; }
+        #balloon { left: 215px; bottom: 110px; width: 50px; height: 50px; background: #FF69B4; border-radius: 50%; }
+        button { padding: 10px 20px; font-size: 16px; cursor: pointer; margin: 10px; }
+    </style>
+</head>
+<body>
+
+    <div id="lang-select">
+        <h1>أهلاً بك في مختبر العلوم!</h1>
+        <h2>Welcome to the Science Lab!</h2>
+        <button onclick="setLanguage('ar')">العربية</button>
+        <button onclick="setLanguage('en')">English</button>
+    </div>
+
+    <div id="main-menu" class="hidden">
+        <h1 id="menu-title"></h1>
+        <button onclick="loadExperiment('vinegar')"><span class="ar">تفاعل الخل والكربوناتو</span><span class="en">Vinegar & Baking Soda</span></button>
+    </div>
+
+    <div id="Experiment-view" class="hidden">
+        <h2 id="exp-title"></h2>
+        <p id="exp-desc"></p>
+        <button id="btn-start" onclick="startSimulation()"></button>
+        
+        <div id="canvas-container">
+            <div id="bottle" class="object"><div style="color:white; padding-top:40px;" id="liquid-text"></div></div>
+            <div id="balloon" class="object"></div>
+        </div>
+        <button onclick="goBack()"><span class="ar">العودة</span><span class="en">Back</span></button>
+    </div>
+
+    <script>
+        let currentLang = 'ar';
+        const data = {
+            ar: {
+                menu: "اختر تجربة",
+                title: "تفاعل الخل والبيكنج صودا",
+                desc: "يتفاعل حمض الخل مع بيكربونات الصوديوم لينتج غاز ثاني أكسيد الكربون الذي ينفخ البالون.",
+                start: "ابدأ التجربة",
+                liquid: "خل"
+            },
+            en: {
+                menu: "Select an Experiment",
+                title: "Vinegar & Baking Soda Reaction",
+                desc: "Acetic acid reacts with sodium bicarbonate to produce carbon dioxide gas, inflating the balloon.",
+                start: "Start Experiment",
+                liquid: "Vinegar"
+            }
+        };
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            document.getElementById('lang-select').classList.add('hidden');
+            document.getElementById('main-menu').classList.remove('hidden');
+            document.getElementById('menu-title').innerText = data[lang].menu;
+            document.dir = lang === 'ar' ? 'rtl' : 'ltr';
+        }
+
+        function loadExperiment(id) {
+            document.getElementById('main-menu').classList.add('hidden');
+            document.getElementById('Experiment-view').classList.remove('hidden');
+            document.getElementById('exp-title').innerText = data[currentLang].title;
+            document.getElementById('exp-desc').innerText = data[currentLang].desc;
+            document.getElementById('btn-start').innerText = data[currentLang].start;
+            document.getElementById('liquid-text').innerText = data[currentLang].liquid;
+        }
+
+        function startSimulation() {
+            const balloon = document.getElementById('balloon');
+            balloon.style.bottom = '160px';
+            balloon.style.height = '100px';
+            balloon.style.width = '100px';
+            balloon.style.left = '190px';
+        }
+
+        function goBack() {
+            document.getElementById('Experiment-view').classList.add('hidden');
+            document.getElementById('main-menu').classList.remove('hidden');
+            const balloon = document.getElementById('balloon');
+            balloon.style.bottom = '110px';
+            balloon.style.height = '50px';
+            balloon.style.width = '50px';
+            balloon.style.left = '215px';
+        }
+    </script>
+</body>
+</html>
